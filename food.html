@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="main"></div>
+    <button onclick="get_hint()">get hint</button>
+    <div id="hint" style="margin: 10px; display: none; flex-direction: row;">
+        <div id="hint-bullet" style="background: red; width: 30px; height: 30px; margin-right:15px"></div>
+        <div id="hint-str" style="margin-top:5px">bla bla</div>
+    </div>
+</body>
+
+<script>
+    let board = `--------------n---
+--------------e---
+----o---------w---
+----r---------f---
+----g---------o---
+----a--------puppy
+----n-g-------n---
+----i-r--c----d---
+domestic_animal---
+----m-f--r--a-a---
+------f--n--m-n---
+------o--i--m-d---
+------n--v--a-----
+---------o--l-----
+---------r--------
+---------e--------`;
+const board_info = [{"x": 3, "y": 15, "orientation": "h", "word": "physical_entity"}, {"x": 15, "y": 4, "orientation": "v", "word": "culture_medium"}, {"x": 4, "y": 7, "orientation": "h", "word": "commissariat"}, {"x": 4, "y": 0, "orientation": "v", "word": "substance"}, {"x": 12, "y": 14, "orientation": "v", "word": "beverage"}, {"x": 0, "y": 8, "orientation": "h", "word": "matter"}, {"x": 11, "y": 21, "orientation": "h", "word": "feed"}]
+const hints = [{"word": "beverage", "type": "definition", "hint": "any liquid suitable for drinking"}, {"word": "substance", "type": "definition", "hint": "a particular kind or species of matter with uniform properties"}, {"word": "physical_entity", "type": "definition", "hint": "an entity that has physical existence"}, {"word": "commissariat", "type": "definition", "hint": "a stock or supply of foods"}, {"word": "matter", "type": "definition", "hint": "that which has mass and occupies space"}, {"word": "feed", "type": "definition", "hint": "food for domestic livestock"}, {"word": "culture_medium", "type": "definition", "hint": "(bacteriology) a nutrient substance (solid or liquid) that is used to cultivate micro-organisms"}]
+const main = document.getElementById("main");
+
+    color_idx = 0;
+    colors = ['red', 'blue', 'green', 'purple', 'orange', 'pink', 'brown']
+    let word_to_color = {}
+    let ix = 0;
+    let iy = 0;
+    for (let c of board) {
+        if (c === '\n') {
+            const br = document.createElement("br");
+            main.appendChild(br);
+            iy++;
+            ix = 0;
+        }
+        else {
+
+            const cell = document.createElement("input");
+            cell.style.width = "30px";
+            cell.style.height = "30px"
+            if (c === '-') {
+                cell.style.background = '#333'
+                cell.disabled = true;
+            }
+            else if (c === '_') {
+                cell.style.background = 'lightyellow'
+                cell.value = c;
+                cell.disabled = true;
+            }
+            else {
+                cell.style.background = 'lightyellow'
+                if(Math.random() < 0.3){
+                    cell.value = c;
+                }
+            }
+            cell.dataset.x = ix;
+            cell.dataset.y = iy;
+
+            cell.onchange = (event) => {
+                console.log(event.target.value)
+            };
+            cell.id = `${ix}-${iy}`;
+            cell.style.fontSize="x-large";
+
+
+            main.appendChild(cell);
+            ix++;
+
+        }
+    }
+
+    for (let info of board_info) {
+        console.log(info)
+        let x = info['x']
+        let y = info['y']
+        let input = document.getElementById(`${x}-${y}`);
+        input.style.background = colors[color_idx]
+        word_to_color[info['word']] = colors[color_idx]
+        color_idx++;
+    }
+
+    function get_hint() {
+        var hint_obj = hints[Math.floor(Math.random()*hints.length)];
+        let color = word_to_color[hint_obj.word];
+        let hint = hint_obj.hint;
+        document.getElementById('hint').style.display = 'flex';
+        let hint_color = document.getElementById('hint-bullet');
+        let hint_str = document.getElementById('hint-str');
+
+        hint_color.style.background = color;
+        hint_str.innerHTML = `(${hint_obj.type}) ${hint_obj.hint}`;
+    }
+
+
+</script>
+
+</html>

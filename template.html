@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="main"></div>
+    <button onclick="get_hint()">get hint</button>
+    <div id="hint" style="margin: 10px; display: none; flex-direction: row;">
+        <div id="hint-bullet" style="background: red; width: 30px; height: 30px; margin-right:15px"></div>
+        <div id="hint-str" style="margin-top:5px">bla bla</div>
+    </div>
+</body>
+
+<script>
+let board = `$BOARD`
+const board_info = $BOARDSINFO
+const hints = $HINTS
+const main = document.getElementById("main");
+
+    let color_idx = 0;
+    let colors = ['red', 'blue', 'green', 'purple', 'orange', 'pink', 'brown']
+    let word_to_color = {}
+    let ix = 0;
+    let iy = 0;
+    for (let c of board) {
+        if (c === '\n') {
+            const br = document.createElement("br");
+            main.appendChild(br);
+            iy++;
+            ix = 0;
+        }
+        else {
+
+            const cell = document.createElement("input");
+            cell.style.width = "30px";
+            cell.style.height = "30px"
+            if (c === '-') {
+                cell.style.background = '#333'
+                cell.disabled = true;
+            }
+            else if (c === '_') {
+                cell.style.background = 'lightyellow'
+                cell.value = c;
+                cell.disabled = true;
+            }
+            else {
+                cell.style.background = 'lightyellow'
+                if(Math.random() < 0.3){
+                    cell.value = c;
+                }
+            }
+            cell.dataset.x = ix;
+            cell.dataset.y = iy;
+
+            cell.onchange = (event) => {
+                console.log(event.target.value)
+            };
+            cell.id = `${ix}-${iy}`;
+            cell.style.fontSize="x-large";
+
+
+            main.appendChild(cell);
+            ix++;
+
+        }
+    }
+
+    for (let info of board_info) {
+        console.log(info)
+        let x = info['x']
+        let y = info['y']
+        let input = document.getElementById(`${x}-${y}`);
+        console.log(`${x}-${y}`)
+        input.style.background = colors[color_idx]
+        word_to_color[info['word']] = colors[color_idx]
+        color_idx++;
+    }
+
+    function get_hint() {
+        var hint_obj = hints[Math.floor(Math.random()*hints.length)];
+        let color = word_to_color[hint_obj.word];
+        let hint = hint_obj.hint;
+        document.getElementById('hint').style.display = 'flex';
+        let hint_color = document.getElementById('hint-bullet');
+        let hint_str = document.getElementById('hint-str');
+
+        hint_color.style.background = color;
+        hint_str.innerHTML = `(${hint_obj.type}) ${hint_obj.hint}`;
+    }
+
+
+</script>
+
+</html>
