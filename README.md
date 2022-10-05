@@ -2,4 +2,4 @@
 Labs for Deep Learning with Applications in NLP
 
 usage:
-python3 generate_puzzle.py <theme>
+python3 generate_puzzle.py theme_word
