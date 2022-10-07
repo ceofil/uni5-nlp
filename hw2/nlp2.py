@@ -13,6 +13,24 @@ nltk.download('wordnet')
 
 '''
     Ex. 4) https://docs.google.com/document/d/1HT5_4lr77TAyJ5k4cI48qGw8tpVekUyRmMOyGr5eJzo/edit?fbclid=IwAR1X-hCiYZ1BIluIgCiJ7xO_N8AwTpU7XBwGRdc3JGchq0pQxF7tOtHRjSc
+
+    One application that needs syntactic and dependency parsing is, for example, 
+    the gmail writing assistant which has to understand the context and the syntactic 
+    meaning of the sentences that the user writes in order to suggest suitable words. 
+
+    Another application that uses both syntactic and dependency parsing consists of 
+    any voice assistant, for instance, the car voice assistant, Cortana, Siri etc. 
+    This type of assistant has to understand the rules of language in order to answer 
+    back properly or the commands that it is given. In most cases, the answer to common 
+    questions can be hardcoded but by doing so the level of understanding the input is 
+    very limited.
+ 
+    Dependency parsing is especially important for applications that rely on text mining
+    and on the comprehension of relationships between the subject and the other objects
+    in ambiguous cases. This type of application can be found in the business intelligence 
+    sector, in advertising, in news (e.g. gathering information about who does the action 
+    in headlines). 
+
 '''
 
 
