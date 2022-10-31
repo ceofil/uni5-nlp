@@ -3,7 +3,6 @@ import nltk
 import random
 import numpy as np
 from nltk import CFG
-import spacy
 import stanza
 
 stanza.download('en')
